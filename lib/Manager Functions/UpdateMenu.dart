@@ -167,7 +167,13 @@ class _UpdateMenuState extends State<UpdateMenu> {
                   fontWeight: FontWeight.bold,
                   fontSize: 15),
             ),
-            subtitle: Text(menuItem["Description"].toString()),
+            onTap: () => Navigator.pushNamed(context, "/dishOverview",
+                arguments: menuItemKey),
+            subtitle: Text(
+              menuItem["Description"].toString(),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
             style: ListTileStyle.list,
             contentPadding: const EdgeInsets.symmetric(
               vertical: 4.0,

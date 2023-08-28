@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
+import 'package:restaurant_mangement/cook_functions/dish_overview.dart';
+import 'package:restaurant_mangement/cook_functions/order_detailes.dart';
 import 'package:restaurant_mangement/home_screen.dart';
 import 'firebase_options.dart';
 import 'utility/authentification.dart';
@@ -44,6 +46,8 @@ class MyApp extends StatelessWidget {
           '/placeOrder': (context) => const PlaceOrder(),
           '/Cook': (context) => const Cook(),
           '/AddNewDish': (context) => const AddNewDish(),
+          "/orderDetailes": (context) => const OrderDetailes(),
+          '/dishOverview': (context) => const DishOverview(),
         },
         theme: ThemeData(
           listTileTheme: const ListTileThemeData(

@@ -41,7 +41,7 @@ class _Server extends State<Server> {
                 groupKey: "server101",
                 groupid: 1,
                 id: idCount,
-                body: "Table $key : $description",
+                body: "$key : $description",
                 title: "Order Ready to Serve!");
             idCount += 10;
           }

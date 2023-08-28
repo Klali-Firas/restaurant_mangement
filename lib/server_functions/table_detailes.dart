@@ -138,80 +138,60 @@ class _TableDetailsState extends State<TableDetails> {
 
   Widget _buildMenuItemCard(
       Map<String, dynamic> allOrders, String orderKey, dynamic menuItem) {
-    return Material(
-      color: Colors.transparent,
-      elevation: 6,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(9), topRight: Radius.circular(9)),
-            child: CachedNetworkImage(
-              imageUrl: menuItem?["image"] ?? "",
-              progressIndicatorBuilder: (context, url, downloadProgress) =>
-                  SizedBox(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircularProgressIndicator(
-                    value: downloadProgress.progress,
+    return GestureDetector(
+      onTap: () =>
+          Navigator.pushNamed(context, "/dishOverview", arguments: orderKey),
+      child: Material(
+        color: Colors.transparent,
+        elevation: 6,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(9), topRight: Radius.circular(9)),
+              child: CachedNetworkImage(
+                imageUrl: menuItem?["image"] ?? "",
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    SizedBox(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircularProgressIndicator(
+                      value: downloadProgress.progress,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Container(
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(9),
-                    bottomRight: Radius.circular(9))),
-            width: double.infinity,
-            child: Column(children: [
-              const SizedBox(height: 3),
-              Text(
-                "${allOrders[orderKey]} x $orderKey",
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
+            Container(
+              decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(9),
+                      bottomRight: Radius.circular(9))),
+              width: double.infinity,
+              child: Column(children: [
+                const SizedBox(height: 3),
+                Text(
+                  "${allOrders[orderKey]} x $orderKey",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 6),
-              Text(
-                  "${(menuItem["price"] * allOrders[orderKey]).toString()} DT"),
-              const SizedBox(height: 3)
-            ]),
-          ),
-        ],
+                const SizedBox(height: 6),
+                Text(
+                    "${(menuItem["price"] * allOrders[orderKey]).toString()} DT"),
+                const SizedBox(height: 3)
+              ]),
+            ),
+          ],
+        ),
       ),
     );
   }
-
-  // void _isDishPaid(String orderKey) {
-  //   realtimedatabase
-  //       .getData("Tables/p0/Orders")
-  //       .orderByChild("served")
-  //       .equalTo(false)
-  //       .once()
-  //       .then(
-  //     (value) {
-  //       print(value.snapshot.value);
-  //       var data = Map<dynamic, dynamic>.from(
-  //           value.snapshot.value as Map<dynamic, dynamic>);
-  //       Map<dynamic, dynamic> specificOrders = {};
-  //       data.forEach((key, value) {
-  //         var order = data[key]["orders"];
-  //         if (order.containsKey(orderKey)) {
-  //           specificOrders.addAll({key: value});
-  //         }
-  //       });
-  //       print(specificOrders);
-  //     },
-  //   );
-  //   // Assuming that the orderKey is the dish name
-  // }
 
   Future<bool> _areAllOrdersServed(
       String id, Map<dynamic, dynamic> orders) async {
@@ -228,6 +208,9 @@ class _TableDetailsState extends State<TableDetails> {
     return StreamBuilder(
       stream: realtimedatabase.getData("Tables/$id").onValue,
       builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const CircularProgressIndicator();
+        }
         final data = Map<dynamic, dynamic>.from(
             snapshot.data!.snapshot.value as Map<dynamic, dynamic>);
         if (data["empty"]) return const SizedBox();

@@ -191,15 +191,8 @@ class _CookState extends State<Cook> {
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             subtitle: Text(subtitleText),
-            onTap: () {
-              if (status == 'New Orders') {
-                realtimedatabase.updateData(
-                    "Tables/$tableName/Orders/$orderKey", {"ready": true});
-              } else if (status == 'Ready to Serve') {
-                realtimedatabase.updateData(
-                    "Tables/$tableName/Orders/$orderKey", {"served": true});
-              }
-            },
+            onTap: () => Navigator.pushNamed(context, "/orderDetailes",
+                arguments: {"order": orderKey, "status": status}),
             trailing: Text(
               '${orderDateTime.hour.toString().padLeft(2, '0')}:${orderDateTime.minute.toString().padLeft(2, '0')}',
               style: const TextStyle(fontSize: 16),
