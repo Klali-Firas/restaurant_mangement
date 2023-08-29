@@ -134,7 +134,7 @@ class _CookState extends State<Cook> {
 
               sortedTables.forEach((key, value) {
                 final orderDateTime = DateTime.fromMillisecondsSinceEpoch(
-                    int.parse(sortedTables[key]["orderDate"]));
+                    sortedTables[key]["orderDate"]);
                 final difference =
                     DateTime.now().difference(orderDateTime).inHours;
 
@@ -174,7 +174,7 @@ class _CookState extends State<Cook> {
         final orderDetails = sortedTables[orderKey]["orders"];
         final orderTimestamp = sortedTables[orderKey]["orderDate"];
         final orderDateTime =
-            DateTime.fromMillisecondsSinceEpoch(int.parse(orderTimestamp));
+            DateTime.fromMillisecondsSinceEpoch(orderTimestamp);
 
         String subtitleText = '';
         orderDetails.forEach((dishName, dishCount) {

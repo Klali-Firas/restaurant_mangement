@@ -307,7 +307,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
           ? null
           : () async {
               if (orders.isNotEmpty) {
-                var time = DateTime.now().millisecondsSinceEpoch.toString();
+                var time = DateTime.now().millisecondsSinceEpoch;
                 setState(() {
                   _orderPlaced = true;
                 });
@@ -335,7 +335,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
   }
 
   Future<void> _saveOrderToDatabase(
-      String id, double paycheck, String time) async {
+      String id, double paycheck, int time) async {
     await realtimedatabase.addData("Tables/$id/Orders/${"${id}_$time"}", {
       "orders": orders,
       'done': false,

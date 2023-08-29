@@ -10,14 +10,14 @@ class OrderDetailes extends StatefulWidget {
 }
 
 class _OrderDetailesState extends State<OrderDetailes> {
-  late String status = "served";
+  late String status = "";
 
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final String order = args["order"];
-    if (args["status"] != "Served Orders") status = args["status"];
+    if (status == "") status = args["status"];
     return Scaffold(
       appBar: AppBar(title: const Text("Order Detailes")),
       body: Column(
@@ -41,7 +41,7 @@ class _OrderDetailesState extends State<OrderDetailes> {
                 }
                 var orders = Map<dynamic, dynamic>.from(
                     snapshot.data!.snapshot.value as Map<dynamic, dynamic>);
-                print(orders);
+
                 return ListView.builder(
                   itemCount: orders.length,
                   itemBuilder: (context, index) {
@@ -129,7 +129,7 @@ class _OrderDetailesState extends State<OrderDetailes> {
                       setState(() {
                         status = 'New Orders';
                       });
-                    } else if (status == 'served') {
+                    } else if (status == 'Served Orders') {
                       updateData(
                           "Tables/${order.substring(0, order.indexOf('_'))}/Orders/$order",
                           {"served": false});
@@ -143,7 +143,7 @@ class _OrderDetailesState extends State<OrderDetailes> {
                     style: const TextStyle(fontSize: 16),
                   ),
                 ),
-              if (status != 'New Orders' && status != "served")
+              if (status != 'New Orders' && status != "Served Orders")
                 const SizedBox(width: 5),
               if (status == 'New Orders' || status == 'Ready to Serve')
                 ElevatedButton(
@@ -163,7 +163,7 @@ class _OrderDetailesState extends State<OrderDetailes> {
                           "Tables/${order.substring(0, order.indexOf('_'))}/Orders/$order",
                           {"served": true});
                       setState(() {
-                        status = "served";
+                        status = "Served Orders";
                       });
                     }
                   },
