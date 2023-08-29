@@ -50,6 +50,7 @@ class MyApp extends StatelessWidget {
           '/dishOverview': (context) => const DishOverview(),
         },
         theme: ThemeData(
+          fontFamily: "Product Sans",
           listTileTheme: const ListTileThemeData(
             iconColor: Colors.teal,
             dense: true,

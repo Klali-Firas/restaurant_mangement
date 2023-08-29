@@ -110,10 +110,10 @@ class _DishOverviewState extends State<DishOverview> {
                           children: [
                             Text(
                               dishData["price"].toStringAsFixed(3),
-                              style: TextStyle(
-                                  backgroundColor: darkColor,
+                              style: const TextStyle(
+                                  //backgroundColor: darkColor,
                                   fontSize: 25,
-                                  color: lightColor,
+                                  color: Colors.teal, //lightColor,
                                   fontWeight: FontWeight.w600),
                             ),
                             const Text(

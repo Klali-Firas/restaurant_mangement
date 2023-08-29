@@ -13,8 +13,8 @@ class _Manager extends State<Manager> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Manager", textAlign: TextAlign.center),
-          centerTitle: true),
+        title: const Text("Manager", style: TextStyle()),
+      ),
       body: WillPopScope(
         onWillPop: () async {
           Navigator.pop(context);

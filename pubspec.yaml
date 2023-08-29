@@ -72,6 +72,18 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  fonts:
+      - family: Product Sans
+        fonts:
+          - asset: ./assets/fonts/Product Sans Regular.ttf
+          - asset: ./assets/fonts/Product Sans Italic.ttf
+            style: italic
+          - asset: ./assets/fonts/Product Sans Bold.ttf
+            weight: 700
+          - asset: ./assets/fonts/Product Sans Bold Italic.ttf
+            weight: 700
+            style: italic
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:

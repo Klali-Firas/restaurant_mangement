@@ -65,14 +65,14 @@ class Chart extends StatelessWidget {
           ),
           bottomTitles: AxisTitles(
             sideTitles: SideTitles(
-                interval: 3,
+                interval: 4,
                 showTitles: true,
                 reservedSize: 30,
                 getTitlesWidget: (value, meta) {
                   return Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: Text(
-                      value.toInt() % 3 == 0 ? value.toInt().toString() : "",
+                      value.toInt() % 4 == 0 ? value.toInt().toString() : "",
                       style: const TextStyle(color: Colors.grey),
                     ),
                   );
