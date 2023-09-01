@@ -84,150 +84,147 @@ class _Earnings extends State<Earnings> {
           spots.add(newSpot);
         }
       }
-      setState(() {
-        spots.sort((a, b) => a.x.compareTo(b.x));
-      });
+
+      spots.sort((a, b) => a.x.compareTo(b.x));
+
       Map<dynamic, dynamic> ordersPays = {};
       if (allOrders.isNotEmpty) {
         highestSoldDish = findMaxOrder(allOrders);
+        Map<dynamic, dynamic> data = {};
+        await getData("Menu").once().then((value) {
+          data = Map<dynamic, dynamic>.from(
+              value.snapshot.value as Map<dynamic, dynamic>);
+        });
+
         for (var entry in allOrders.entries) {
           final key = entry.key;
           final count = entry.value;
-          await getData("Menu/$key").once().then((value) {
-            var data = Map<dynamic, dynamic>.from(
-                value.snapshot.value as Map<dynamic, dynamic>);
 
-            ordersPays.addAll({key: data["price"] * count});
-          });
+          ordersPays.addAll({key: data[key]["price"] * count});
         }
-        setState(() {
-          highestPaidDish = findMaxOrder(ordersPays);
-        });
+
+        highestPaidDish = findMaxOrder(ordersPays);
       }
+      setState(() {});
     });
   }
 
   @override
   void initState() {
     inializeSpots();
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Analytics"),
-      ),
-      body: Center(
-          child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        pickedDate =
-                            DateTime(pickedDate.year, pickedDate.month - 1);
-                        inializeSpots();
-                      });
-                    },
-                    icon: const Icon(Icons.arrow_back_ios_new_rounded)),
-                const Expanded(child: SizedBox()),
-                Text(
-                  "${DateFormat.MMMM().format(pickedDate)}, ",
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      pickedDate =
+                          DateTime(pickedDate.year, pickedDate.month - 1);
+                      inializeSpots();
+                    });
+                  },
+                  icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+              const Expanded(child: SizedBox()),
+              Text(
+                "${DateFormat.MMMM().format(pickedDate)}, ",
+                style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Color.fromARGB(255, 40, 40, 40)),
+              ),
+              Text(pickedDate.year.toString(),
                   style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
+                      color: Colors.teal)),
+              const Expanded(child: SizedBox()),
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      pickedDate =
+                          DateTime(pickedDate.year, pickedDate.month + 1);
+                      inializeSpots();
+                    });
+                  },
+                  icon: const Icon(Icons.arrow_forward_ios_rounded)),
+            ],
+          ),
+          const SizedBox(height: 15),
+          Material(
+            color: const Color.fromARGB(255, 245, 255, 254),
+            borderRadius: const BorderRadius.all(Radius.circular(25)),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: double.infinity,
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: spots.isNotEmpty
+                    ? Chart(
+                        spots: spots,
+                      )
+                    : const Center(
+                        child: Text(
+                        "No Data Available!",
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 0, 87, 79),
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600),
+                      )),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12.0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                const Text(
+                  "Total Month Earnings :",
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
                       color: Color.fromARGB(255, 40, 40, 40)),
                 ),
-                Text(pickedDate.year.toString(),
-                    style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.teal)),
                 const Expanded(child: SizedBox()),
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        pickedDate =
-                            DateTime(pickedDate.year, pickedDate.month + 1);
-                        inializeSpots();
-                      });
-                    },
-                    icon: const Icon(Icons.arrow_forward_ios_rounded)),
+                Text(
+                  totalEarnings.toStringAsFixed(3),
+                  style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.teal),
+                ),
+                const Text(
+                  "DT",
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Color.fromARGB(255, 40, 40, 40)),
+                )
               ],
             ),
-            const SizedBox(height: 15),
-            Material(
-              color: const Color.fromARGB(255, 245, 255, 254),
-              borderRadius: const BorderRadius.all(Radius.circular(25)),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  child: spots.isNotEmpty
-                      ? Chart(
-                          spots: spots,
-                        )
-                      : const Center(
-                          child: Text(
-                          "No Data Available!",
-                          style: TextStyle(
-                              color: Color.fromARGB(255, 0, 87, 79),
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600),
-                        )),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.baseline,
-                textBaseline: TextBaseline.alphabetic,
-                children: [
-                  const Text(
-                    "Total Month Earnings :",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Color.fromARGB(255, 40, 40, 40)),
-                  ),
-                  const Expanded(child: SizedBox()),
-                  Text(
-                    totalEarnings.toStringAsFixed(3),
-                    style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.teal),
-                  ),
-                  const Text(
-                    "DT",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Color.fromARGB(255, 40, 40, 40)),
-                  )
-                ],
-              ),
-            ),
-            if (highestSoldDish.isNotEmpty)
-              tile(highestSoldDish, "Highest Sold Dish :",
-                  "x${highestSoldDish.values.elementAt(0)}"),
-            const SizedBox(height: 12),
-            if (highestPaidDish.isNotEmpty)
-              tile(highestPaidDish, "Highest Paid Dish :",
-                  "${highestPaidDish.values.elementAt(0)}DT")
-          ],
-        ),
-      )),
+          ),
+          if (highestSoldDish.isNotEmpty)
+            tile(highestSoldDish, "Highest Sold Dish :",
+                "x${highestSoldDish.values.elementAt(0)}"),
+          const SizedBox(height: 12),
+          if (highestPaidDish.isNotEmpty)
+            tile(highestPaidDish, "Highest Paid Dish :",
+                "${highestPaidDish.values.elementAt(0)}DT")
+        ],
+      ),
     );
   }
 

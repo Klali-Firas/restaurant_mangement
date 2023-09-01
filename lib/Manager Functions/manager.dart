@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_mangement/Manager%20Functions/all.dart';
 
 import '../utility/authentification.dart';
 
@@ -12,47 +13,100 @@ class _Manager extends State<Manager> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Manager", style: TextStyle()),
-      ),
-      body: WillPopScope(
-        onWillPop: () async {
-          Navigator.pop(context);
-          await signOut();
-          return true;
-        },
-        child: Center(
-            child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Button(text: "Add/Remove Server", pressed: '/ARServer'),
-            SizedBox(height: 10),
-            Button(text: "Add/Remove Cook", pressed: '/ARCook'),
-            SizedBox(height: 10),
-            Button(text: "Update Tables", pressed: '/UTables'),
-            SizedBox(height: 10),
-            Button(text: "Update Menu", pressed: '/UMenu'),
-            SizedBox(height: 10),
-            Button(text: "Daily Earnings", pressed: '/Earnings'),
-          ],
-        )),
-      ),
-    );
+        appBar: AppBar(
+          title: const Text("Manager", style: TextStyle()),
+        ),
+        body: WillPopScope(
+          onWillPop: () async {
+            Navigator.pop(context);
+            await signOut();
+            return true;
+          },
+          child: const SingleChildScrollView(
+            child: Earnings(),
+          ),
+        ),
+        drawer: Drawer(
+          elevation: 2,
+          child: Column(
+            children: [
+              DrawerHeader(
+                  decoration: const BoxDecoration(color: Colors.teal),
+                  child: Center(
+                      child: Text(
+                    fbAuth.currentUser?.displayName ?? "Manager",
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold),
+                  ))),
+              Tile(
+                onTap: () => Navigator.pop(context),
+                title: "Monthly Earnings",
+                icon: Icons.attach_money_rounded,
+              ),
+              Tile(
+                onTap: () => Navigator.pushNamed(context, '/ARCook'),
+                title: "Manage Cooks",
+                icon: Icons.manage_accounts_rounded,
+              ),
+              Tile(
+                onTap: () => Navigator.pushNamed(context, '/ARServer'),
+                title: "Manage Servers",
+                icon: Icons.manage_accounts_rounded,
+              ),
+              Tile(
+                onTap: () => Navigator.pushNamed(context, '/UTables'),
+                title: "Manage Tables",
+                icon: Icons.table_restaurant_rounded,
+              ),
+              Tile(
+                onTap: () => Navigator.pushNamed(context, '/UMenu'),
+                title: "Manage menu",
+                icon: Icons.restaurant_rounded,
+              ),
+              const Expanded(child: SizedBox()),
+              Container(
+                width: double.infinity,
+                color: Colors.teal,
+                child: IconButton(
+                  icon: const Icon(Icons.power_settings_new_rounded),
+                  color: Colors.white,
+                  onPressed: () async {
+                    Navigator.pop(context);
+
+                    Navigator.pop(context);
+                    await signOut();
+                  },
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }
 
-class Button extends StatelessWidget {
-  const Button({super.key, required this.text, required this.pressed});
-  final String text;
-  final String pressed;
+class Tile extends StatelessWidget {
+  const Tile({
+    super.key,
+    required this.title,
+    required this.onTap,
+    required this.icon,
+  });
+  final IconData? icon;
+  final String title;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          textStyle: const TextStyle(fontSize: 18),
-          fixedSize: const Size(250, 50),
+    return ListTile(
+      leading: Icon(icon, color: Colors.teal),
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontSize: 14,
         ),
-        onPressed: () => Navigator.pushNamed(context, pressed),
-        child: Text(text));
+      ),
+      onTap: onTap,
+    );
   }
 }

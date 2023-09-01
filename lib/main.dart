@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:restaurant_mangement/cook_functions/dish_overview.dart';
 import 'package:restaurant_mangement/cook_functions/order_detailes.dart';
+import 'package:restaurant_mangement/create_manager_account.dart';
+import 'package:restaurant_mangement/guide.dart';
 import 'package:restaurant_mangement/home_screen.dart';
 import 'firebase_options.dart';
 import 'utility/authentification.dart';
@@ -33,7 +35,9 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         initialRoute: '/',
         routes: {
-          '/': (context) => const HomePage(),
+          '/': (context) => const Guide(),
+          '/CreateManagerAccount': (context) => const CreateManagerAccount(),
+          '/Home': (context) => const HomePage(),
           // const MyHomePage( title: 'Flutter Demo Home Page'),
           '/Manager': (context) => const Manager(),
           '/ARServer': (context) => const ARServer(),

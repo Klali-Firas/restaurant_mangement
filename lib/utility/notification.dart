@@ -20,7 +20,7 @@ class NotificationService {
         ?.requestPermission();
 
     AndroidInitializationSettings initializationSettingsAndroid =
-        const AndroidInitializationSettings('@mipmap/ic_launcher');
+        const AndroidInitializationSettings('@drawable/ic_stat_name');
     var initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
     );

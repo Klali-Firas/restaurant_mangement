@@ -50,6 +50,9 @@ dependencies:
   palette_generator: ^0.3.3+2
   fl_chart: ^0.62.0
   intl: ^0.18.1
+  email_validator: ^2.1.17
+  lottie: ^2.3.2
+  shared_preferences: ^2.2.1
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +75,10 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+  - assets/animation/
+  - assets/images/
+
   fonts:
       - family: Product Sans
         fonts:

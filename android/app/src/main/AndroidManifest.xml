@@ -2,7 +2,7 @@
     package="com.example.restaurant_mangement">
     <uses-permission android:name="android.permission.VIBRATE"/>
    <application
-        android:label="restaurant_mangement"
+        android:label="Restaurant Mangement"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

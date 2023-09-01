@@ -16,7 +16,17 @@ class _Server extends State<Server> {
   @override
   void initState() {
     super.initState();
-
+    realtimedatabase
+        .getData("accounts/${fbAuth.currentUser!.displayName}")
+        .onChildChanged
+        .listen((event) {
+      if (event.snapshot.key == "deleted") {
+        if (event.snapshot.value == true) {
+          Navigator.pop(context);
+          signOut();
+        }
+      }
+    });
     realtimedatabase.getData("Tables").once().then((value) {
       var tablesdata = value.snapshot.value;
       var tables =
