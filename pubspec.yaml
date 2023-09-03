@@ -80,6 +80,9 @@ flutter:
   - assets/images/
 
   fonts:
+      - family: Icon Font
+        fonts:
+          - asset: ./assets/fonts/Icon Font.ttf
       - family: Product Sans
         fonts:
           - asset: ./assets/fonts/Product Sans Regular.ttf

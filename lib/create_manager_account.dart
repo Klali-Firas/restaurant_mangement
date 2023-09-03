@@ -30,7 +30,7 @@ class _CreateManagerAccountState extends State<CreateManagerAccount> {
         isCreatingUser = true; // Disable the button and form fields
       });
 
-      final email = emailController.value.text.trim();
+      final email = emailController.value.text.trim().toLowerCase();
       final pass = passController.value.text.trim();
       final displayName = nameController.value.text.trim();
 

@@ -61,9 +61,9 @@ class _AddNewDishState extends State<AddNewDish> {
   bool _isUploading = false;
 
   void _addNewDishData() {
-    realtimedatabase.addData("Menu/${_nameController.text}", {
+    realtimedatabase.addData("Menu/${_nameController.text.trim()}", {
       "Created Time": DateTime.now().toString(),
-      "Description": _descController.text,
+      "Description": _descController.text.trim(),
       "price": double.parse(_priceController.text),
       "image": _downloadURL,
     });

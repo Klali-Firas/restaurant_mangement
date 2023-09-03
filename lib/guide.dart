@@ -17,7 +17,7 @@ class _GuideState extends State<Guide> with SingleTickerProviderStateMixin {
   Future<void> _checkFirstTime() async {
     final SharedPreferences prefs = await _prefs;
     final bool firstTime = (prefs.getBool('first_time') ?? true);
-    // prefs.setBool('first_time', true);
+    // prefs.setBool('first_time', true); //coment this line out.
 
     if (!firstTime) {
       // Not the first time, navigate to '/Home'

@@ -48,8 +48,8 @@ class _DishOverviewState extends State<DishOverview> {
             }
             var dishData = Map<dynamic, dynamic>.from(
                 snapshot.data!.snapshot.value as Map<dynamic, dynamic>);
-            updateDarkColor(dishData["image"]);
-            updatelightColor(dishData["image"]);
+            // updateDarkColor(dishData["image"]);
+            // updatelightColor(dishData["image"]);
             return Padding(
               padding: const EdgeInsets.all(24.0),
               child: Column(

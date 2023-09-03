@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_mangement/utility/realtime_database.dart'
@@ -163,7 +165,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
           }
 
           final menuItems =
-              Map<String, dynamic>.from(data as Map<dynamic, dynamic>);
+              SplayTreeMap<String, dynamic>.from(data as Map<dynamic, dynamic>);
           if (itemCounts.isEmpty) {
             itemCounts = List.filled(menuItems.length, 0);
           }
@@ -208,7 +210,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               _buildMenuItemImage(menuItem),
-              _buildMenuItemInfo(menuItemKey, menuItem),
+              Expanded(
+                  flex: 1000, child: _buildMenuItemInfo(menuItemKey, menuItem)),
               const Expanded(child: SizedBox()),
               _buildItemCountControls(menuItemKey, menuItem,
                   menuItemIndex), // Pass the menuItemIndex
@@ -248,6 +251,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(menuItemKey,
+                overflow: TextOverflow.ellipsis,
                 style:
                     const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const SizedBox(height: 4),

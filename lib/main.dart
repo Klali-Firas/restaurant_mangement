@@ -7,7 +7,6 @@ import 'package:restaurant_mangement/create_manager_account.dart';
 import 'package:restaurant_mangement/guide.dart';
 import 'package:restaurant_mangement/home_screen.dart';
 import 'firebase_options.dart';
-import 'utility/authentification.dart';
 import 'Manager Functions/all.dart';
 import 'server_functions/main_server.dart';
 import 'utility/notification.dart';
@@ -84,103 +83,5 @@ class MyApp extends StatelessWidget {
             // Add more text styles as needed
           ),
         ));
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  String? name = "";
-  bool signed = false;
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passController = TextEditingController();
-
-  void useSignIn() {
-    signIn(
-        _emailController.value.text.trim(), _passController.value.text.trim());
-  }
-
-  void useCreateUser() {
-    createUser(_emailController.value.text.trim(),
-        _passController.value.text.trim(), 'wtf');
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    fbAuth.userChanges().listen((user) {
-      setState(() {
-        name = user!.displayName != null ? user.displayName.toString() : "";
-      });
-    });
-    fbAuth.authStateChanges().listen((user) {
-      setState(() {
-        signed = user != null;
-      });
-    });
-  }
-
-  int count = 5;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text("$name"),
-              TextFormField(
-                controller: _emailController,
-                textAlign: TextAlign.center,
-                decoration: const InputDecoration(hintText: "Email"),
-              ),
-              TextFormField(
-                controller: _passController,
-                textAlign: TextAlign.center,
-                decoration: const InputDecoration(hintText: "Password"),
-              ),
-              ElevatedButton(
-                  onPressed: useSignIn, child: const Text("sign in")),
-              const ElevatedButton(onPressed: signOut, child: Text("sign out")),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/Manager');
-                  },
-                  child: const Text("Manager")),
-              ElevatedButton(
-                  onPressed: () => Navigator.pushNamed(context, '/Server'),
-                  child: const Text("Server")),
-              ElevatedButton(
-                  onPressed: () => Navigator.pushNamed(context, '/Cook'),
-                  child: const Text("Cook")),
-              ElevatedButton(
-                  onPressed: () async {
-                    await NotificationService().showNotification(
-                        groupid: 0,
-                        id: count,
-                        title: "testing...",
-                        body: "it worked :${count * 11}");
-                    print(count);
-                    count += 10;
-                  },
-                  child: const Text("notification test"))
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

@@ -21,6 +21,8 @@ Future<XFile?> pickImage() async {
 Future<XFile?> _cropImage(XFile? pickedFile) async {
   if (pickedFile != null) {
     final croppedFile = await ImageCropper().cropImage(
+      maxWidth: 1024,
+      maxHeight: 1024,
       sourcePath: pickedFile.path,
       compressFormat: ImageCompressFormat.jpg,
       compressQuality: 100,

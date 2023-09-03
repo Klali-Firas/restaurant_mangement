@@ -34,7 +34,7 @@ class _ARServerState extends State<ARServer> {
       await getData("accounts/${fbAuth.currentUser?.displayName}/password")
           .once()
           .then((value) => managerPassword = value.snapshot.value.toString());
-      final email = emailController.value.text.trim();
+      final email = emailController.value.text.trim().toLowerCase();
       final pass = passController.value.text.trim();
       final displayName = nameController.value.text.trim();
 

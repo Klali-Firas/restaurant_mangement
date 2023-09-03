@@ -41,20 +41,16 @@ class _HomePageState extends State<HomePage> {
         int numVerte = random.nextInt(7) + 9;
         await addData("Tables/Cabane 1/Orders/Cabane 1_$time", {
           "orders": {
-            "Escalope": numEscalope,
-            'Plat Dorade': numDorade,
-            'Salade Verte': numVerte
+            "Plate Escalope grillé ": numEscalope,
+            'Plate Dorade': numDorade,
+            'Salade Verte ': numVerte
           },
           'done': true,
           "ready": true,
           "served": true,
-          "price": 30 * numEscalope + 35 * numDorade + 5.5 * numVerte,
+          "price": 30 * numEscalope + 35 * numDorade + 5 * numVerte,
           "orderDate": time,
         });
-        // Generate other random order data
-
-        // Add the order to your database (you can use your own database logic here)
-        // Replace this line with your database logic
       }
     }
   }
@@ -75,24 +71,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   void useSignIn() async {
-    var data = await getUserData();
-    if (data != null) {
-      await signIn(emailController.text.trim(), passController.text.trim());
-      if (isSIgnedIn()) {
-        if (data[fbAuth.currentUser?.displayName]["deleted"]) {
-          getData("accounts")
-              .child("${fbAuth.currentUser?.displayName}")
-              .remove();
-          await fbAuth.currentUser!.delete();
-          showToast('this account has been deleted by the Manager !');
-        } else {
-          showToast("Loged In Successfully");
-          changeScreen("/${data[fbAuth.currentUser?.displayName]["type"]}");
-          passController.clear();
-        }
+    await signIn(emailController.text.trim(), passController.text.trim());
+    if (isSIgnedIn()) {
+      var data = await getUserData();
+      if (data![fbAuth.currentUser?.displayName]["deleted"]) {
+        getData("accounts")
+            .child("${fbAuth.currentUser?.displayName}")
+            .remove();
+        await fbAuth.currentUser!.delete();
+        showToast('this account has been deleted by the Manager !');
+      } else {
+        showToast("Loged In Successfully");
+        changeScreen("/${data[fbAuth.currentUser?.displayName]["type"]}");
+        passController.clear();
       }
-    } else {
-      showToast("There's no account with the given cedentiels!");
     }
   }
 
@@ -101,7 +93,7 @@ class _HomePageState extends State<HomePage> {
 
     await getData("accounts")
         .orderByChild("email")
-        .equalTo(email ?? emailController.text.trim())
+        .equalTo(email ?? emailController.text.trim().toLowerCase())
         .once()
         .then((value) {
       if (value.snapshot.value != null) {
@@ -193,9 +185,9 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-            ElevatedButton(
-                onPressed: () => generateRandomOrders(),
-                child: const Text("Generate"))
+            // ElevatedButton(
+            //     onPressed: () => generateRandomOrders(),
+            //     child: const Text("Generate"))
           ]),
         ),
       ),

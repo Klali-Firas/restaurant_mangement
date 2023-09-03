@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_mangement/Manager%20Functions/all.dart';
+import 'package:restaurant_mangement/presentation/chef_icon.dart';
 
 import '../utility/authentification.dart';
 
@@ -18,9 +19,7 @@ class _Manager extends State<Manager> {
         ),
         body: WillPopScope(
           onWillPop: () async {
-            Navigator.pop(context);
-            await signOut();
-            return true;
+            return false;
           },
           child: const SingleChildScrollView(
             child: Earnings(),
@@ -48,12 +47,12 @@ class _Manager extends State<Manager> {
               Tile(
                 onTap: () => Navigator.pushNamed(context, '/ARCook'),
                 title: "Manage Cooks",
-                icon: Icons.manage_accounts_rounded,
+                icon: CustomIcons.chef,
               ),
               Tile(
                 onTap: () => Navigator.pushNamed(context, '/ARServer'),
                 title: "Manage Servers",
-                icon: Icons.manage_accounts_rounded,
+                icon: CustomIcons.waiter,
               ),
               Tile(
                 onTap: () => Navigator.pushNamed(context, '/UTables'),
@@ -62,7 +61,7 @@ class _Manager extends State<Manager> {
               ),
               Tile(
                 onTap: () => Navigator.pushNamed(context, '/UMenu'),
-                title: "Manage menu",
+                title: "Manage Menu",
                 icon: Icons.restaurant_rounded,
               ),
               const Expanded(child: SizedBox()),

@@ -15,7 +15,9 @@ class _Earnings extends State<Earnings> {
   Map<String, dynamic> highestPaidDish = {};
   double totalEarnings = 0;
   DateTime now = DateTime.now();
-  late DateTime pickedDate = DateTime(1977, 1);
+  late DateTime pickedDate = DateTime(now.year, now.month);
+  Map<dynamic, dynamic> orders = {};
+  Map<dynamic, dynamic> data = {};
 
   late List<FlSpot> spots = [];
   Map<String, dynamic> findMaxOrder(Map<dynamic, dynamic> orders) {
@@ -33,85 +35,83 @@ class _Earnings extends State<Earnings> {
   }
 
   void inializeSpots() {
-    if (pickedDate == DateTime(1977, 1)) {
-      pickedDate = DateTime(now.year, now.month);
-    }
     DateTime nextMonth = DateTime(pickedDate.year, pickedDate.month + 1);
 
+    List<FlSpot> newSpots = [];
+    Map<String, dynamic> allOrders = {};
+    highestSoldDish.clear();
+    highestPaidDish.clear();
+    totalEarnings = 0;
+    orders.forEach((key, value) {
+      DateTime orderdate =
+          DateTime.fromMillisecondsSinceEpoch(value['orderDate']);
+      if (orderdate.isAfter(pickedDate) && orderdate.isBefore(nextMonth)) {
+        totalEarnings += value["price"];
+        newSpots
+            .add(FlSpot(orderdate.day.toDouble(), value['price'].toDouble()));
+        final order =
+            Map<String, dynamic>.from(value["orders"] as Map<dynamic, dynamic>);
+        order.forEach((dishName, dishCount) {
+          allOrders.update(
+            dishName,
+            (count) => count + dishCount,
+            ifAbsent: () => dishCount,
+          );
+        });
+      }
+    });
+
+    spots.clear();
+    for (var newSpot in newSpots) {
+      int existingIndex = spots.indexWhere((spot) => spot.x == newSpot.x);
+
+      if (existingIndex != -1) {
+        // Update existing spot
+        spots[existingIndex] =
+            FlSpot(spots[existingIndex].x, spots[existingIndex].y + newSpot.y);
+      } else {
+        // Add new spot
+        spots.add(newSpot);
+      }
+    }
+
+    spots.sort((a, b) => a.x.compareTo(b.x));
+
+    Map<dynamic, dynamic> ordersPays = {};
+    if (allOrders.isNotEmpty) {
+      highestSoldDish = findMaxOrder(allOrders);
+
+      for (var entry in allOrders.entries) {
+        final key = entry.key;
+        final count = entry.value;
+
+        ordersPays.addAll({key: data[key]["price"] * count});
+      }
+
+      highestPaidDish = findMaxOrder(ordersPays);
+    }
+    setState(() {});
+  }
+
+  @override
+  void initState() {
     getData("Tables").onValue.listen((value) async {
       var tables = Map<dynamic, dynamic>.from(
           value.snapshot.value as Map<dynamic, dynamic>);
-      Map<dynamic, dynamic> orders = {};
+      orders.clear();
+      data.clear();
       tables.forEach((key, value) {
         if (value["Orders"] != null) {
           orders.addAll(value["Orders"] as Map<dynamic, dynamic>);
         }
       });
-      List<FlSpot> newSpots = [];
-      Map<String, dynamic> allOrders = {};
-      highestSoldDish.clear();
-      highestPaidDish.clear();
-      totalEarnings = 0;
-      orders.forEach((key, value) {
-        DateTime orderdate =
-            DateTime.fromMillisecondsSinceEpoch(value['orderDate']);
-        if (orderdate.isAfter(pickedDate) && orderdate.isBefore(nextMonth)) {
-          totalEarnings += value["price"];
-          newSpots
-              .add(FlSpot(orderdate.day.toDouble(), value['price'].toDouble()));
-          final order = Map<String, dynamic>.from(
-              value["orders"] as Map<dynamic, dynamic>);
-          order.forEach((dishName, dishCount) {
-            allOrders.update(
-              dishName,
-              (count) => count + dishCount,
-              ifAbsent: () => dishCount,
-            );
-          });
-        }
+      getData("Menu").once().then((value) {
+        data = Map<dynamic, dynamic>.from(
+            value.snapshot.value as Map<dynamic, dynamic>);
+        inializeSpots();
       });
-
-      spots.clear();
-      for (var newSpot in newSpots) {
-        int existingIndex = spots.indexWhere((spot) => spot.x == newSpot.x);
-
-        if (existingIndex != -1) {
-          // Update existing spot
-          spots[existingIndex] = FlSpot(
-              spots[existingIndex].x, spots[existingIndex].y + newSpot.y);
-        } else {
-          // Add new spot
-          spots.add(newSpot);
-        }
-      }
-
-      spots.sort((a, b) => a.x.compareTo(b.x));
-
-      Map<dynamic, dynamic> ordersPays = {};
-      if (allOrders.isNotEmpty) {
-        highestSoldDish = findMaxOrder(allOrders);
-        Map<dynamic, dynamic> data = {};
-        await getData("Menu").once().then((value) {
-          data = Map<dynamic, dynamic>.from(
-              value.snapshot.value as Map<dynamic, dynamic>);
-        });
-
-        for (var entry in allOrders.entries) {
-          final key = entry.key;
-          final count = entry.value;
-
-          ordersPays.addAll({key: data[key]["price"] * count});
-        }
-
-        highestPaidDish = findMaxOrder(ordersPays);
-      }
-      setState(() {});
     });
-  }
 
-  @override
-  void initState() {
-    inializeSpots();
     super.initState();
   }
 

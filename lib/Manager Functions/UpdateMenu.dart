@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:restaurant_mangement/utility/realtime_database.dart'
@@ -46,6 +48,7 @@ class _UpdateMenuState extends State<UpdateMenu> {
                 if (menuData == null) {
                   return _buildNoDataAvailable();
                 }
+                print(menuData);
 
                 final menuItems = _parseMenuItems(menuData);
 
@@ -91,7 +94,8 @@ class _UpdateMenuState extends State<UpdateMenu> {
   }
 
   Map<String, dynamic> _parseMenuItems(dynamic menuData) {
-    return Map<String, dynamic>.from(menuData as Map<dynamic, dynamic>);
+    return SplayTreeMap<String, dynamic>.from(
+        menuData as Map<dynamic, dynamic>);
   }
 
   Widget _buildMenuItemDismissible(String menuItemKey, dynamic menuItem) {
