@@ -9,7 +9,7 @@ The **Restaurant Management App** is a mobile application designed to help resta
 - [About](#about)
 - [Features](#features)
 - [Usage](#usage)
-- [Technologies Used](#technologies used)
+- [Technologies Used](#technologies-used)
 
 
 ## About
