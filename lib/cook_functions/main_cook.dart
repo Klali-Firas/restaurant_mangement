@@ -14,16 +14,19 @@ class Cook extends StatefulWidget {
   State<Cook> createState() => _CookState();
 }
 
+//Main cook screen
+
 class _CookState extends State<Cook> {
   late StreamSubscription _dataStreamSubscription;
   int idCount = 3;
   List<String> newOrders = [];
   List<String> readyOrders = [];
   List<String> servedOrders = [];
-  Map<dynamic, dynamic> sortedTables = {}; // Store sorted tables here
+  Map<dynamic, dynamic> sortedTables = {};
   @override
   void initState() {
     super.initState();
+    //listen to the account status , if the account get's deleted the app signs out the user
     realtimedatabase
         .getData("accounts/${fbAuth.currentUser!.displayName}")
         .onChildChanged
@@ -35,6 +38,8 @@ class _CookState extends State<Cook> {
         }
       }
     });
+
+    //Listen to changes in the databse and push notifications
     realtimedatabase.getData("Tables").once().then((value) {
       var tablesdata = value.snapshot.value;
       var tables =
@@ -74,7 +79,7 @@ class _CookState extends State<Cook> {
               description += '$dishCount x $dishName, ';
             });
             description = description.substring(0, description.length - 2);
-
+//push notifaction
             NotificationService().showNotification(
                 groupid: 2,
                 groupKey: "order101",
@@ -90,6 +95,8 @@ class _CookState extends State<Cook> {
 
   @override
   void dispose() {
+    //cancel the listener when user signs out
+    //doesn't work
     _dataStreamSubscription.cancel();
     super.dispose();
   }
@@ -148,6 +155,7 @@ class _CookState extends State<Cook> {
                 final difference =
                     DateTime.now().difference(orderDateTime).inHours;
 
+                //show orders that are 12 hours or less old
                 if (difference <= 12) {
                   if (!sortedTables[key]["served"]) {
                     if (sortedTables[key]["ready"]) {
@@ -163,6 +171,7 @@ class _CookState extends State<Cook> {
 
               return TabBarView(
                 children: [
+                  //dividing the data to new, ready and served
                   _buildOrdersList(newOrders, 'New Orders'),
                   _buildOrdersList(readyOrders, 'Ready to Serve'),
                   _buildOrdersList(servedOrders, 'Served Orders'),
@@ -175,6 +184,7 @@ class _CookState extends State<Cook> {
     );
   }
 
+//the view of each tab
   Widget _buildOrdersList(List<String> orders, String status) {
     return ListView.builder(
       itemCount: orders.length,

@@ -16,10 +16,15 @@ import 'cook_functions/main_cook.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase with the specified options
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  // Initialize the notification service
   await NotificationService().initNotification();
+
+  // Set preferred screen orientation to portrait
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(const MyApp());
@@ -33,6 +38,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Flutter Demo',
         initialRoute: '/',
+
+        //routes to different page screens
         routes: {
           '/': (context) => const Guide(),
           '/CreateManagerAccount': (context) => const CreateManagerAccount(),
@@ -52,6 +59,7 @@ class MyApp extends StatelessWidget {
           "/orderDetailes": (context) => const OrderDetailes(),
           '/dishOverview': (context) => const DishOverview(),
         },
+        //default theme for the whole app.
         theme: ThemeData(
           fontFamily: "Product Sans",
           listTileTheme: const ListTileThemeData(
@@ -80,7 +88,6 @@ class MyApp extends StatelessWidget {
             titleLarge: TextStyle(color: Colors.pink),
             bodyLarge: TextStyle(color: Colors.black), // Change text color
             bodyMedium: TextStyle(color: Colors.black), // Change text color
-            // Add more text styles as needed
           ),
         ));
   }

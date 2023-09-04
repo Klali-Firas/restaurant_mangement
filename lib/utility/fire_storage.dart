@@ -5,6 +5,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:restaurant_mangement/utility/toast.dart';
 
+//All the functionalities required to pick and image ,crop it and upload it to firebase storage
+
+//pick an image and resige it to maximum width and height of 1024 pixels
 Future<XFile?> pickImage() async {
   final ImagePicker picker = ImagePicker();
   try {
@@ -18,6 +21,7 @@ Future<XFile?> pickImage() async {
   }
 }
 
+//Crop the selected image
 Future<XFile?> _cropImage(XFile? pickedFile) async {
   if (pickedFile != null) {
     final croppedFile = await ImageCropper().cropImage(
@@ -42,9 +46,12 @@ Future<XFile?> _cropImage(XFile? pickedFile) async {
   }
 }
 
+//uploade the image to firebase
+
 Future<String?> uploadImageToStorage(
     XFile imageFile, Function(double) progressCallback) async {
   try {
+    //image name on the db
     String fileName = DateTime.now().millisecondsSinceEpoch.toString();
     Reference ref =
         FirebaseStorage.instance.ref().child('images').child(fileName);

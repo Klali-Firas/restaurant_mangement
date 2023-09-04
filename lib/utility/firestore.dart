@@ -1,5 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+//firestore is like realtime db that i ended up using, a little difrent in db structure with it's own benefits
+//didn't suit my needs
+//the file can be deleted
+
 final db = FirebaseFirestore.instance;
 
 Future<void> addData(

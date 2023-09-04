@@ -1,5 +1,7 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+// Notification functionality
+//this file isn't final and some improvement are on the way!
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'ch102',
   "Channel 2",

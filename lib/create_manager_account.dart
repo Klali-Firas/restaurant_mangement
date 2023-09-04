@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_mangement/utility/authentification.dart';
@@ -15,15 +16,23 @@ class _CreateManagerAccountState extends State<CreateManagerAccount> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-  bool visible = true;
+
+  //prefent existing the current screen when creating new user
   bool isCreatingUser = false;
 
+//controls visibilty of the password input text
+  bool visible = true;
   void changeVisibility() {
     setState(() {
       visible = !visible;
     });
   }
 
+  void changeScreen() {
+    Navigator.pushNamed(context, "/Manager");
+  }
+
+//create Mnager account.
   void useCreateUser() async {
     try {
       setState(() {
@@ -59,6 +68,7 @@ class _CreateManagerAccountState extends State<CreateManagerAccount> {
         isCreatingUser = false; // Disable the button and form fields
       });
       showToast("Account Created Successfully");
+      changeScreen();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         showToast('The password provided is too weak.');
@@ -171,7 +181,23 @@ class _CreateManagerAccountState extends State<CreateManagerAccount> {
           fixedSize: Size(MediaQuery.of(context).size.width * 0.8, 45),
           textStyle: const TextStyle(fontSize: 18.0),
         ),
-        onPressed: isCreatingUser ? null : onPressed,
+        onPressed: () {
+          //checking whether all the fields are filled or not before creating the account
+          if (isCreatingUser) {
+            null;
+          } else {
+            if (emailController.text.isNotEmpty &&
+                passController.text.isNotEmpty) {
+              if (EmailValidator.validate(emailController.text.trim())) {
+                useCreateUser();
+              } else {
+                showToast("Please enter a valid Email");
+              }
+            } else {
+              showToast("All fields must be filled!");
+            }
+          }
+        },
         child: Text(buttonText),
       ),
     );

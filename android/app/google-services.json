@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "157984336214",
+    "firebase_url": "https://restaurant-management-5ec33-default-rtdb.firebaseio.com",
     "project_id": "restaurant-management-5ec33",
     "storage_bucket": "restaurant-management-5ec33.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:157984336214:android:064b4c38eba87f71b74ef7",
+        "mobilesdk_app_id": "1:157984336214:android:fc7f031d625d798ab74ef7",
         "android_client_info": {
-          "package_name": "com.example.restaurant_mangement"
+          "package_name": "com.firasklali.restaurant_management"
         }
       },
       "oauth_client": [

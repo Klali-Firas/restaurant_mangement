@@ -54,9 +54,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyADBDn9FhB7c71tZLrSe8KZ4QxjRN4oLkc',
-    appId: '1:157984336214:android:064b4c38eba87f71b74ef7',
+    appId: '1:157984336214:android:fc7f031d625d798ab74ef7',
     messagingSenderId: '157984336214',
     projectId: 'restaurant-management-5ec33',
+    databaseURL: 'https://restaurant-management-5ec33-default-rtdb.firebaseio.com',
     storageBucket: 'restaurant-management-5ec33.appspot.com',
   );
 }

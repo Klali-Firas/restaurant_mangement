@@ -58,6 +58,8 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
+
+  //variable for password input field that decides whether the text is Obsecure or not.
   bool visible = true;
 
   void changeVisibility() {
@@ -66,10 +68,13 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+//function that changes the cuurent screen
   void changeScreen(String path) {
     Navigator.pushNamed(context, path);
   }
 
+//signs in and checks whether the account is deleted or not
+//if it is, procceeds to delete the account, else navigates the propre screen
   void useSignIn() async {
     await signIn(emailController.text.trim(), passController.text.trim());
     if (isSIgnedIn()) {
@@ -88,6 +93,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+//retrieve user data froom the database
   Future<Map<dynamic, dynamic>?> getUserData({String? email}) async {
     Map<dynamic, dynamic>? data;
 
@@ -108,6 +114,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    //checks if there's a user signed in when the app launches
     if (isSIgnedIn()) {
       getUserData(email: fbAuth.currentUser?.email).then((userData) {
         if (userData != null) {
@@ -194,6 +201,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+//the input fields of the form
   Widget _buildInputFormField({
     required TextEditingController controller,
     required IconData prefixIcon,
@@ -221,6 +229,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  //the sign in button
+
   Widget _buildElevatedButton({
     required String buttonText,
   }) {
@@ -232,6 +242,7 @@ class _HomePageState extends State<HomePage> {
           textStyle: const TextStyle(fontSize: 18.0),
         ),
         onPressed: () {
+          //checking whether all the fields are filled or not before procceeding to the sign in
           if (emailController.text.isNotEmpty &&
               passController.text.isNotEmpty) {
             if (EmailValidator.validate(emailController.text.trim())) {

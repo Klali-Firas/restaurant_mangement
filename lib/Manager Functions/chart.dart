@@ -1,6 +1,8 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+//the Chart widget using FL_Chart Library
+
 class Chart extends StatelessWidget {
   const Chart({
     super.key,

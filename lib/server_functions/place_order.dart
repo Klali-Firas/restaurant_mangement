@@ -1,10 +1,11 @@
 import 'dart:collection';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_mangement/utility/realtime_database.dart'
     as realtimedatabase;
 import 'package:restaurant_mangement/utility/toast.dart';
+
+//Pick dishes to form an Order than Confirm it
 
 class PlaceOrder extends StatefulWidget {
   const PlaceOrder({super.key});
@@ -23,6 +24,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
 
   @override
   Widget build(BuildContext context) {
+    //arguments sent from the previous screen about the current screen
     final args =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final String id = args["id"];
@@ -48,6 +50,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
     );
   }
 
+// Widget to display the total order price.
   Widget _buildOrderSummary() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -79,6 +82,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
     );
   }
 
+  // Widget to display the selected dishes in a horizontal list.
   Widget _buildOrderListView() {
     return SizedBox(
       height: 150,
@@ -149,6 +153,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
     );
   }
 
+// Widget to display the available menu items.
   Widget _buildMenuListView() {
     return Expanded(
       child: StreamBuilder(
@@ -186,6 +191,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
     );
   }
 
+// Initialize dish image URLs from the menu data.
   void _initializeURLs(Map<String, dynamic> menuItems) {
     menuItems.forEach((key, value) {
       if (value != null && value is Map) {
@@ -197,6 +203,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
     });
   }
 
+// Widget to build a menu item in the menu list.
   Widget _buildMenuItem(menuItem, menuItemKey, index) {
     final menuItemIndex = index; // Store the current index
     return Padding(
@@ -222,6 +229,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
     );
   }
 
+//the image of the dish
   Widget _buildMenuItemImage(menuItem) {
     return SizedBox(
       height: 60,
@@ -283,6 +291,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
     );
   }
 
+// Update the count and total price when adding/removing dishes.
   void _updateItemCount(menuItem, index, menuItemKey,
       {required bool isIncrement}) {
     setState(() {
@@ -305,6 +314,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
     }
   }
 
+  // Widget for the "Confirm Order" button
   Widget _buildConfirmButton(String id) {
     return ElevatedButton(
       onPressed: _orderPlaced
@@ -338,6 +348,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
     );
   }
 
+// Save the order data to the database and update table information.
   Future<void> _saveOrderToDatabase(
       String id, double paycheck, int time) async {
     await realtimedatabase.addData("Tables/$id/Orders/${"${id}_$time"}", {

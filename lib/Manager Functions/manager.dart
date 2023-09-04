@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_mangement/Manager%20Functions/all.dart';
 import 'package:restaurant_mangement/presentation/chef_icon.dart';
-
 import '../utility/authentification.dart';
+
+//manager's main screen where he can navigate through his functionalities
 
 class Manager extends StatefulWidget {
   const Manager({super.key});
@@ -22,9 +23,11 @@ class _Manager extends State<Manager> {
             return false;
           },
           child: const SingleChildScrollView(
+            //Monthly earnings as default widget
             child: Earnings(),
           ),
         ),
+        //drawer containing the routes to differnt screens
         drawer: Drawer(
           elevation: 2,
           child: Column(
@@ -64,7 +67,9 @@ class _Manager extends State<Manager> {
                 title: "Manage Menu",
                 icon: Icons.restaurant_rounded,
               ),
+
               const Expanded(child: SizedBox()),
+              //sign out button
               Container(
                 width: double.infinity,
                 color: Colors.teal,
@@ -72,8 +77,9 @@ class _Manager extends State<Manager> {
                   icon: const Icon(Icons.power_settings_new_rounded),
                   color: Colors.white,
                   onPressed: () async {
+                    //pop the drawer
                     Navigator.pop(context);
-
+                    //pop the manager's screen
                     Navigator.pop(context);
                     await signOut();
                   },
@@ -85,6 +91,7 @@ class _Manager extends State<Manager> {
   }
 }
 
+//drawer tile
 class Tile extends StatelessWidget {
   const Tile({
     super.key,

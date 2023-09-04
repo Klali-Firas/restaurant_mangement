@@ -16,15 +16,18 @@ class _ARCookState extends State<ARCook>
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-  bool visible = true;
+
   bool isCreatingUser = false;
 
+  //toogle obsecure text visibility
+  bool visible = true;
   void changeVisibility() {
     setState(() {
       visible = !visible;
     });
   }
 
+//create new Cook
   void useCreateUser() async {
     try {
       setState(() {
@@ -194,6 +197,7 @@ class _BuildRemoveCookTab extends StatefulWidget {
 
 class _BuildRemoveCookTabState extends State<_BuildRemoveCookTab>
     with AutomaticKeepAliveClientMixin<_BuildRemoveCookTab> {
+  //set's the account delete cariable to true in the db so when he tries to login he's account will be deleted
   @override
   bool get wantKeepAlive => true;
 
@@ -270,6 +274,7 @@ class _BuildRemoveCookTabState extends State<_BuildRemoveCookTab>
     );
   }
 
+//delete confirmation dialog
   void showDeleteConfirmationDialog(String name) {
     showDialog(
       context: context,

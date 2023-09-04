@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_mangement/utility/realtime_database.dart';
-
 import '../utility/color_picker.dart';
+
+//Dish Details
 
 class DishOverview extends StatefulWidget {
   const DishOverview({Key? key}) : super(key: key);
@@ -12,6 +13,8 @@ class DishOverview extends StatefulWidget {
 }
 
 class _DishOverviewState extends State<DishOverview> {
+  //function to pick darks and light color from the image,
+  //this functions aren't in use for now
   Color darkColor = Colors.teal;
   Color lightColor = Colors.white;
   Future<void> updateDarkColor(String link) async {

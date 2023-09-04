@@ -1,5 +1,7 @@
 import 'package:fluttertoast/fluttertoast.dart';
 
+//Library to show messages with in the app
+
 void showToast(String msg) {
   Fluttertoast.showToast(
       msg: msg,

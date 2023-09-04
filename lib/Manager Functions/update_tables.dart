@@ -43,13 +43,14 @@ class _UpdateTablesState extends State<UpdateTables> {
                 stream: realtimedatabase.getData("Tables").onValue,
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
-                    return _buildLoadingIndicator();
+                    return _buildLoadingIndicator(); // Display a loading indicator while data is loading.
                   }
                   final dynamic snapshotValue = snapshot.data?.snapshot.value;
                   if (snapshotValue == null) {
-                    return _buildNoDataAvailable();
+                    return _buildNoDataAvailable(); // Display a message when there's no table data.
                   }
-                  _updateTableIdentifiers(snapshotValue);
+                  _updateTableIdentifiers(
+                      snapshotValue); // Update the list of table identifiers.
                   return _buildTableList();
                 },
               ),
@@ -93,9 +94,9 @@ class _UpdateTablesState extends State<UpdateTables> {
     final inputText = textController.text.trim();
     if (inputText.isNotEmpty) {
       setState(() {
-        tableIdentifiers.add(inputText);
-        useAddData(inputText);
-        textController.clear();
+        tableIdentifiers.add(inputText); // Add a new table to the list.
+        useAddData(inputText); // Add table data to the database.
+        textController.clear(); // Clear the input field.
       });
     }
   }
@@ -106,12 +107,14 @@ class _UpdateTablesState extends State<UpdateTables> {
       "empty": true,
       "paid": null,
       "paycheck": null,
-    });
+    }); // Add table data to the database.
   }
 
   void _updateTableIdentifiers(dynamic snapshotValue) {
     if (snapshotValue is Map) {
-      tableIdentifiers = snapshotValue.keys.cast<String>().toList();
+      tableIdentifiers = snapshotValue.keys
+          .cast<String>()
+          .toList(); // Update the list of table identifiers.
     } else {
       tableIdentifiers = [];
     }
@@ -128,7 +131,8 @@ class _UpdateTablesState extends State<UpdateTables> {
             return await _confirmDeletion(context, tableName);
           },
           onDismissed: (direction) {
-            realtimedatabase.removeData("Tables/$tableName");
+            realtimedatabase.removeData(
+                "Tables/$tableName"); // Remove table data from the database.
           },
           direction: DismissDirection.endToStart,
           background: Padding(
@@ -140,7 +144,7 @@ class _UpdateTablesState extends State<UpdateTables> {
               child: const Padding(
                 padding: EdgeInsets.only(right: 10.0),
                 child: Icon(
-                  Icons.delete_outline_rounded,
+                  Icons.delete_outline_rounded, // Delete icon for swipe action.
                   color: Colors.teal,
                   size: 25,
                 ),
@@ -205,7 +209,8 @@ class _UpdateTablesState extends State<UpdateTables> {
       builder: (context) {
         return AlertDialog(
           title: const Text("Delete"),
-          content: const Text("Confirm action?"),
+          content: const Text(
+              "Confirm action?"), // Confirmation dialog for deletion.
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(false),

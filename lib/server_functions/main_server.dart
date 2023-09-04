@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_mangement/utility/realtime_database.dart'
     as realtimedatabase;
-
 import '../utility/authentification.dart';
 import '../utility/notification.dart';
+
+//main screen for the Waiter which contains a list of the current tables and thir status
 
 class Server extends StatefulWidget {
   const Server({super.key});
@@ -15,6 +16,7 @@ class _Server extends State<Server> {
   int idCount = 4;
   @override
   void initState() {
+    //listen to the account status , if the account get's deleted the app signs out the user
     super.initState();
     realtimedatabase
         .getData("accounts/${fbAuth.currentUser!.displayName}")
@@ -27,6 +29,7 @@ class _Server extends State<Server> {
         }
       }
     });
+    //listen to changes in the db and push notifications
     realtimedatabase.getData("Tables").once().then((value) {
       var tablesdata = value.snapshot.value;
       var tables =
@@ -73,6 +76,7 @@ class _Server extends State<Server> {
           await signOut();
           return true;
         },
+        //read the data from db and outputs in grid view
         child: Center(
             child: Column(
           children: [
@@ -149,6 +153,7 @@ class _Server extends State<Server> {
     );
   }
 
+//determins the color for the grid tile according to the table status
   Color determinColor(Map<String, dynamic> table) {
     if (table["empty"]) {
       return const Color.fromARGB(
@@ -181,6 +186,7 @@ class _Server extends State<Server> {
     return Colors.lightBlue; // Scenario 3: Orders Not Served and Not Ready
   }
 
+//determins the subTitle for the grid tile according to the table status
   String determinSubTitle(Map<String, dynamic> table) {
     if (table["empty"]) {
       return ""; // Scenario 1: Empty Table

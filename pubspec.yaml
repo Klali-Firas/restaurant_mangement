@@ -53,6 +53,7 @@ dependencies:
   email_validator: ^2.1.17
   lottie: ^2.3.2
   shared_preferences: ^2.2.1
+  change_app_package_name: ^1.1.0
 
 dev_dependencies:
   flutter_test:

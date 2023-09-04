@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:restaurant_mangement/utility/realtime_database.dart'
     as realtimedatabase;
 
+//show'sthe selected table status, orders details
+
 class TableDetails extends StatefulWidget {
   const TableDetails({super.key});
 
@@ -115,6 +117,7 @@ class _TableDetailsState extends State<TableDetails> {
     );
   }
 
+// Calculate and consolidate all orders.
   Map<String, dynamic> _calculateAllOrders(Map<dynamic, dynamic> orders) {
     Map<String, dynamic> allOrders = {};
 
@@ -136,6 +139,7 @@ class _TableDetailsState extends State<TableDetails> {
     return allOrders;
   }
 
+// Build a card for a menu item showing its details.
   Widget _buildMenuItemCard(
       Map<String, dynamic> allOrders, String orderKey, dynamic menuItem) {
     return GestureDetector(
@@ -193,6 +197,7 @@ class _TableDetailsState extends State<TableDetails> {
     );
   }
 
+// Check if all orders for the table are served.
   Future<bool> _areAllOrdersServed(
       String id, Map<dynamic, dynamic> orders) async {
     for (String orderKey in orders.keys) {
@@ -342,6 +347,7 @@ class _TableDetailsState extends State<TableDetails> {
     );
   }
 
+// Mark all orders for the table as done and set the table as empty.
   Future<void> _markOrdersAsDone(
       String id, Map<dynamic, dynamic> orders) async {
     for (String orderKey in orders.keys) {

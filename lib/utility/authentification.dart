@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:restaurant_mangement/utility/toast.dart';
 
+// functions required for users authentification control
+
 FirebaseAuth fbAuth = FirebaseAuth.instance;
 
+//Create new user
 void createUser(String email, String pass, String displayName) async {
   try {
     final UserCredential credential =
@@ -22,10 +25,10 @@ void createUser(String email, String pass, String displayName) async {
   }
 }
 
+//Sign In
 Future<void> signIn(String email, String pass) async {
   try {
-    final credential =
-        await fbAuth.signInWithEmailAndPassword(email: email, password: pass);
+    await fbAuth.signInWithEmailAndPassword(email: email, password: pass);
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
       showToast('No user found for that email.');
@@ -35,10 +38,12 @@ Future<void> signIn(String email, String pass) async {
   }
 }
 
+//Sign out the current user
 Future<void> signOut() async {
   fbAuth.signOut();
 }
 
+//checks whether ther's a user signed in or not.
 bool isSIgnedIn() {
   return fbAuth.currentUser != null;
 }

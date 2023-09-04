@@ -15,15 +15,18 @@ class _ARServerState extends State<ARServer> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
-  bool visible = true;
+
   bool isCreatingUser = false;
 
+  //controls obsecure text visibility
+  bool visible = true;
   void changeVisibility() {
     setState(() {
       visible = !visible;
     });
   }
 
+  //create new Waiter
   void useCreateUser() async {
     try {
       setState(() {
@@ -189,6 +192,8 @@ class _BuildRemoveServerTab extends StatefulWidget {
 
 class _BuildRemoveServerTabState extends State<_BuildRemoveServerTab>
     with AutomaticKeepAliveClientMixin<_BuildRemoveServerTab> {
+  //set's the account delete cariable to true in the db so when he tries to login he's account will be deleted
+
   @override
   bool get wantKeepAlive => true;
 

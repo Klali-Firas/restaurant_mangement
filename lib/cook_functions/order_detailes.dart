@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:restaurant_mangement/utility/realtime_database.dart';
 
+//a Screen that show's a specific order details.
+
 class OrderDetailes extends StatefulWidget {
   const OrderDetailes({Key? key}) : super(key: key);
 
@@ -26,6 +28,7 @@ class _OrderDetailesState extends State<OrderDetailes> {
         children: [
           Expanded(
             child: StreamBuilder(
+              //read the order data from db
               stream: getData(
                       "Tables/${order.substring(0, order.indexOf('_'))}/Orders/$order/orders")
                   .onValue,
@@ -39,6 +42,7 @@ class _OrderDetailesState extends State<OrderDetailes> {
                     child: const CircularProgressIndicator(),
                   );
                 }
+                //transform the data into a Map
                 var orders = Map<dynamic, dynamic>.from(
                     snapshot.data!.snapshot.value as Map<dynamic, dynamic>);
 
@@ -99,6 +103,7 @@ class _OrderDetailesState extends State<OrderDetailes> {
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500),
                                 ),
+                                //show dish overview on click
                                 onTap: () => Navigator.pushNamed(
                                     context, "/dishOverview",
                                     arguments: orders.keys.elementAt(index)),
@@ -113,69 +118,74 @@ class _OrderDetailesState extends State<OrderDetailes> {
               },
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (status != 'New Orders')
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(100, 20),
-                  ),
-                  onPressed: () {
-                    if (status == 'Ready to Serve') {
-                      updateData(
-                          "Tables/${order.substring(0, order.indexOf('_'))}/Orders/$order",
-                          {"ready": false});
-                      setState(() {
-                        status = 'New Orders';
-                      });
-                    } else if (status == 'Served Orders') {
-                      updateData(
-                          "Tables/${order.substring(0, order.indexOf('_'))}/Orders/$order",
-                          {"served": false});
-                      setState(() {
-                        status = "Ready to Serve";
-                      });
-                    }
-                  },
-                  child: Text(
-                    status == 'Ready to Serve' ? "Unready" : "Unserve",
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                ),
-              if (status != 'New Orders' && status != "Served Orders")
-                const SizedBox(width: 5),
-              if (status == 'New Orders' || status == 'Ready to Serve')
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(100, 20),
-                  ),
-                  onPressed: () {
-                    if (status == 'New Orders') {
-                      updateData(
-                          "Tables/${order.substring(0, order.indexOf('_'))}/Orders/$order",
-                          {"ready": true});
-                      setState(() {
-                        status = 'Ready to Serve';
-                      });
-                    } else if (status == 'Ready to Serve') {
-                      updateData(
-                          "Tables/${order.substring(0, order.indexOf('_'))}/Orders/$order",
-                          {"served": true});
-                      setState(() {
-                        status = "Served Orders";
-                      });
-                    }
-                  },
-                  child: Text(
-                    status == 'New Orders' ? "Ready" : "Serve",
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                ),
-            ],
-          )
+          changeOrderStatus(order)
         ],
       ),
+    );
+  }
+
+//toggle the order status between not ready, ready to serve and served.
+  Row changeOrderStatus(String order) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (status != 'New Orders')
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              fixedSize: const Size(100, 20),
+            ),
+            onPressed: () {
+              if (status == 'Ready to Serve') {
+                updateData(
+                    "Tables/${order.substring(0, order.indexOf('_'))}/Orders/$order",
+                    {"ready": false});
+                setState(() {
+                  status = 'New Orders';
+                });
+              } else if (status == 'Served Orders') {
+                updateData(
+                    "Tables/${order.substring(0, order.indexOf('_'))}/Orders/$order",
+                    {"served": false});
+                setState(() {
+                  status = "Ready to Serve";
+                });
+              }
+            },
+            child: Text(
+              status == 'Ready to Serve' ? "Unready" : "Unserve",
+              style: const TextStyle(fontSize: 16),
+            ),
+          ),
+        if (status != 'New Orders' && status != "Served Orders")
+          const SizedBox(width: 5),
+        if (status == 'New Orders' || status == 'Ready to Serve')
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              fixedSize: const Size(100, 20),
+            ),
+            onPressed: () {
+              if (status == 'New Orders') {
+                updateData(
+                    "Tables/${order.substring(0, order.indexOf('_'))}/Orders/$order",
+                    {"ready": true});
+                setState(() {
+                  status = 'Ready to Serve';
+                });
+              } else if (status == 'Ready to Serve') {
+                updateData(
+                    "Tables/${order.substring(0, order.indexOf('_'))}/Orders/$order",
+                    {"served": true});
+                setState(() {
+                  status = "Served Orders";
+                });
+              }
+            },
+            child: Text(
+              status == 'New Orders' ? "Ready" : "Serve",
+              style: const TextStyle(fontSize: 16),
+            ),
+          ),
+      ],
     );
   }
 }

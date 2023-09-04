@@ -42,22 +42,24 @@ class _UpdateMenuState extends State<UpdateMenu> {
               stream: realtimedatabase.getData("Menu").onValue,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return _buildLoadingIndicator();
+                  return _buildLoadingIndicator(); // Display a loading indicator while data is loading.
                 }
                 final menuData = snapshot.data!.snapshot.value;
                 if (menuData == null) {
-                  return _buildNoDataAvailable();
+                  return _buildNoDataAvailable(); // Display a message when there's no menu data.
                 }
                 print(menuData);
 
-                final menuItems = _parseMenuItems(menuData);
+                final menuItems = _parseMenuItems(
+                    menuData); // Parse menu data into a sorted map.
 
                 return ListView.builder(
                   itemCount: menuItems.length,
                   itemBuilder: (context, index) {
                     final menuItemKey = menuItems.keys.elementAt(index);
                     final menuItem = menuItems[menuItemKey];
-                    return _buildMenuItemDismissible(menuItemKey, menuItem);
+                    return _buildMenuItemDismissible(menuItemKey,
+                        menuItem); // Build a dismissible menu item.
                   },
                 );
               },
@@ -65,12 +67,12 @@ class _UpdateMenuState extends State<UpdateMenu> {
           ),
           const SizedBox(height: 5),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: const [
-            Text("Swipe "),
+            Text("Swipe "), // Instruction for swipe action.
             Text(
               "left",
               style: TextStyle(color: Colors.teal, fontWeight: FontWeight.bold),
             ),
-            Text(" to delete a dish!")
+            Text(" to delete a dish!") // Instruction for deleting a dish.
           ]),
           const SizedBox(
             height: 15,
@@ -90,12 +92,13 @@ class _UpdateMenuState extends State<UpdateMenu> {
 
   Widget _buildNoDataAvailable() {
     return const Center(
-        child: Text("The Menu is empty!\nTry adding new dishes."));
+        child: Text(
+            "The Menu is empty!\nTry adding new dishes.")); // Message when no menu data is available.
   }
 
   Map<String, dynamic> _parseMenuItems(dynamic menuData) {
-    return SplayTreeMap<String, dynamic>.from(
-        menuData as Map<dynamic, dynamic>);
+    return SplayTreeMap<String, dynamic>.from(menuData
+        as Map<dynamic, dynamic>); // Parse menu data into a sorted map.
   }
 
   Widget _buildMenuItemDismissible(String menuItemKey, dynamic menuItem) {
@@ -106,7 +109,8 @@ class _UpdateMenuState extends State<UpdateMenu> {
           builder: (context) {
             return AlertDialog(
               title: const Text("Delete"),
-              content: const Text("Confirm action ?"),
+              content: const Text(
+                  "Confirm action ?"), // Confirmation dialog for deletion.
               actions: [
                 TextButton(
                   onPressed: () => Navigator.of(context).pop(false),
@@ -124,7 +128,8 @@ class _UpdateMenuState extends State<UpdateMenu> {
       },
       key: UniqueKey(),
       onDismissed: (direction) {
-        realtimedatabase.removeData("Menu/$menuItemKey");
+        realtimedatabase.removeData(
+            "Menu/$menuItemKey"); // Delete the menu item when dismissed.
       },
       direction: DismissDirection.endToStart,
       background: Padding(
@@ -136,14 +141,15 @@ class _UpdateMenuState extends State<UpdateMenu> {
           child: const Padding(
             padding: EdgeInsets.only(right: 10.0),
             child: Icon(
-              Icons.delete_outline_rounded,
+              Icons.delete_outline_rounded, // Delete icon for swipe action.
               color: Colors.teal,
               size: 25,
             ),
           ),
         ),
       ),
-      child: _buildMenuItemTile(menuItemKey, menuItem),
+      child:
+          _buildMenuItemTile(menuItemKey, menuItem), // Display the menu item.
     );
   }
 

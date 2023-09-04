@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+//this the Guide that'll show for the user when he launches the app
+//for the very first time.
 class Guide extends StatefulWidget {
   const Guide({Key? key}) : super(key: key);
 
@@ -14,10 +16,12 @@ class _GuideState extends State<Guide> with SingleTickerProviderStateMixin {
   late final TabController controller;
   int _index = 0;
 
+  // Check if it's the first time the app is launched
   Future<void> _checkFirstTime() async {
     final SharedPreferences prefs = await _prefs;
     final bool firstTime = (prefs.getBool('first_time') ?? true);
-    // prefs.setBool('first_time', true); //coment this line out.
+    // Commented out to prevent setting 'first_time' again on subsequent app launches
+    // prefs.setBool('first_time', true);
 
     if (!firstTime) {
       // Not the first time, navigate to '/Home'
@@ -61,6 +65,7 @@ class _GuideState extends State<Guide> with SingleTickerProviderStateMixin {
               ))
         ],
       ),
+      //Button that allows the user to skip the Guide
       floatingActionButton: AnimatedOpacity(
         opacity: _index != widgets.length - 1 ? 1.0 : 0.0,
         duration: const Duration(milliseconds: 350),
@@ -78,10 +83,14 @@ class _GuideState extends State<Guide> with SingleTickerProviderStateMixin {
 
 List<Widget> widgets = const [
   Tab(
+      description:
+          "Elevate your restaurant management with powerful account, menu, and table control.",
+      imageName: 'manager functions',
+      title: "Manager Functionalities"),
+  Tab(
     imageName: "earnings",
-    description:
-        'Elevate your restaurant management with powerful account, menu, and table control.',
-    title: 'Restaurant Management',
+    description: "Discover your restaurant's monthly revenue at a glance.",
+    title: 'Monthly Earnings',
   ),
   Tab(
     imageName: "cook",
@@ -90,10 +99,29 @@ List<Widget> widgets = const [
         'Your central station for preparing orders, with real-time order details.',
   ),
   Tab(
+    description: 'Get detailed insights into individual customer orders.',
+    imageName: "order detailes",
+    title: "Order Details",
+  ),
+  Tab(
+      title: "Dish Overview",
+      imageName: "dish overview",
+      description: "Explore your menu with dish descriptions and images."),
+  Tab(
     imageName: "waiter",
     description:
         'Elevate your service game with instant order confirmations and readiness alerts.',
     title: 'The Waiter',
+  ),
+  Tab(
+      description:
+          "Stay informed about table occupancy, payment status, and current orders.",
+      imageName: "table detailes",
+      title: "Table Details"),
+  Tab(
+    description: "Easily create new orders for customers.",
+    imageName: 'place order',
+    title: "Place Order",
   ),
   LetsGetStarted()
 ];
@@ -138,6 +166,8 @@ class Tab extends StatelessWidget {
   }
 }
 
+//The last screen of the guide that'll ask the user whether he has an account or not
+//and 'll navigate to the next scrren accordingly
 class LetsGetStarted extends StatelessWidget {
   const LetsGetStarted({super.key});
   @override

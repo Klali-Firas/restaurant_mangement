@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -18,6 +17,7 @@ class AddNewDish extends StatefulWidget {
 class _AddNewDishState extends State<AddNewDish> {
   XFile? _imageFile;
 
+//pick image and crop it
   void _pickImage() async {
     XFile? imageFile = await pickImage();
     setState(() {
@@ -25,9 +25,11 @@ class _AddNewDishState extends State<AddNewDish> {
     });
   }
 
+//the download url to access the image
   double? _uploadProgress;
   String? _downloadURL;
 
+//upload image to the db
   Future<void> _uploadImage() async {
     if (_imageFile == null) {
       return;
@@ -58,6 +60,7 @@ class _AddNewDishState extends State<AddNewDish> {
   final TextEditingController _descController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
 
+//variable that'll prevent the user from existing the screen while uploading
   bool _isUploading = false;
 
   void _addNewDishData() {

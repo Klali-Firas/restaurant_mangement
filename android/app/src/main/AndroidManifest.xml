@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.restaurant_mangement">
+    package="com.firasklali.restaurant_management">
     <uses-permission android:name="android.permission.VIBRATE"/>
    <application
         android:label="Restaurant Mangement"
