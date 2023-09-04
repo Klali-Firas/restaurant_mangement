@@ -4,17 +4,14 @@ The **Restaurant Management App** is a mobile application designed to help resta
 
 <!--![App Screenshots](screenshots.png)-->
 
-<!--## Table of Contents
+## Table of Contents
 
 - [About](#about)
 - [Features](#features)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
--->
+- [Technologies Used](#technologies used)
+
+
 ## About
 
 The **Restaurant Management App** simplifies daily restaurant operations. It allows restaurant staff to manage tables, take orders, and update the menu in real-time. The app helps improve customer service and streamline restaurant management tasks.
