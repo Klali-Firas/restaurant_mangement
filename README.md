@@ -10,6 +10,7 @@ The **Restaurant Management App** is a mobile application designed to help resta
 - [Features](#features)
 - [Usage](#usage)
 - [Technologies Used](#technologies-used)
+- [Screenshots](#screenshots)
 
 
 ## About
@@ -39,3 +40,7 @@ The **Restaurant Management App** simplifies daily restaurant operations. It all
 
 - **Firebase:** Firebase Realtime Database is used for real-time data management.
 
+
+## Screenshots
+
+<img src="https://github.com/Klali-Firas/restaurant_mangement/blob/main/assets/images/manager%20functions.png" width="300" height="550"> <img src="https://github.com/Klali-Firas/restaurant_mangement/blob/main/assets/images/earnings.png" width="300" height="550"> <img src="https://github.com/Klali-Firas/restaurant_mangement/blob/main/assets/images/waiter.png" width="300" height="550"> <img src="https://github.com/Klali-Firas/restaurant_mangement/blob/main/assets/images/table%20detailes.png" width="300" height="550"> <img src="https://github.com/Klali-Firas/restaurant_mangement/blob/main/assets/images/place%20order.png" width="300" height="550"> <img src="https://github.com/Klali-Firas/restaurant_mangement/blob/main/assets/images/cook.png" width="300" height="550"> <img src="https://github.com/Klali-Firas/restaurant_mangement/blob/main/assets/images/order%20detailes.png" width="300" height="550"> <img src="https://github.com/Klali-Firas/restaurant_mangement/blob/main/assets/images/dish%20overview.png" width="300" height="550"> 
